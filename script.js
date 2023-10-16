@@ -42,19 +42,20 @@ const account2 = {
 
 const account3 = {
   owner: 'Jon Smit',
-  movements: [5000, 3400, 1150, -790, -3210, 1000, 85000, -300, 8950],
+  movements: [5000, 3400, 1150, -790, -3210, -1000, 800, 8950, 50000],
   interestRate: 1.7,
   pin: 7777,
 
   movementsDates: [
-    '2019-01-25T14:18:46.235Z',
+    '2017-01-25T14:18:46.235Z',
     '2018-02-05T16:33:06.386Z',
     '2018-03-10T14:43:26.374Z',
     '2018-04-25T18:49:59.371Z',
-    '2018-11-01T13:15:33.035Z',
+    '2019-11-01T13:15:33.035Z',
     '2019-11-30T09:48:16.867Z',
-    '2020-12-25T06:04:23.907Z',
-    '2020-02-26T12:01:20.894Z',
+    '2021-12-25T06:04:23.907Z',
+    '2022-02-26T12:01:20.894Z',
+    '2023-10-15T00:01:00.894Z',
   ],
   currency: 'USD',
   locale: 'pt-PT',
@@ -131,7 +132,10 @@ const printWelcome = function (name) {
 
 const formatMovementDate = function (date, locale) {
   const calcDaysPassed = (date1, date2) =>
-    Math.round((date1 - date2) / (60 * 60 * 24 * 1000));
+
+   Math.trunc(Math.abs(date1 - date2) / (1000 * 60 * 60 * 24));
+
+    // Math.round((date1 - date2) / (60 * 60 * 24 * 1000));
   const now = new Date();
   const daysPassed = calcDaysPassed(now, date);
 
@@ -142,6 +146,37 @@ const formatMovementDate = function (date, locale) {
     return new Intl.DateTimeFormat(locale).format(date);
   }
 };
+
+
+
+// function displayTime(date) {
+//   let now = new Date();
+
+//   function calcPassedDay(date1, date2) {
+//     let day = Math.trunc(Math.abs(date1 - date2) / (100 * 60 * 60 * 24));
+
+//     if (date1.getHours() - date2.getHours() < 0) return ++day;
+
+//     return day;
+//   }
+
+//   let passedDay = calcPassedDay(now, date);
+
+//   let year = date.getFullYear();
+//   let month = addZeroBegin(date.getMonth() + 1);
+//   let day = addZeroBegin(date.getDate());
+//   let hour = addZeroBegin(date.getHours());
+//   let minut = addZeroBegin(date.getMinutes());
+
+//   if (passedDay == 0) return `Today, ${hour}:${minut} `;
+//   if (passedDay == 1) return `Yesterday, ${hour}:${minut} `;
+
+//   return `${day}/${month}/${year}, ${hour}:${minut}`;
+// }
+
+
+
+
 
 const formatCur = function (value, locale, currency) {
   return new Intl.NumberFormat(locale, {
@@ -235,7 +270,8 @@ const calcPrintSummary = function (account) {
   );
 };
 
-let currentAccount, timer;
+let currentAccount;
+let timer;
 
 btnLogin.addEventListener('click', function (e) {
   e.preventDefault();
@@ -277,6 +313,9 @@ btnLogin.addEventListener('click', function (e) {
 
     calcPrintSummary(currentAccount);
   }
+  else{
+    alert('bu akaunt mavjut emas')
+  }
 });
 
 btnTransfer.addEventListener('click', function (e) {
@@ -304,6 +343,9 @@ btnTransfer.addEventListener('click', function (e) {
     clearInterval(timer);
     timer = startLogOutTimer();
   }
+  else{
+    alert('kechirasiz login notogri yoki sizda yetarli mablag mavjut emas')
+  }
 
   inputTransferTo.value = inputTransferAmount.value = '';
 });
@@ -329,6 +371,9 @@ btnLoan.addEventListener('click', function (e) {
     clearInterval(timer);
     timer = startLogOutTimer();
   }
+  else{
+    alert('kechirasiz biz sizga buncha katta summa bera olmaymiz')
+  }
   inputLoanAmount.value = '';
 });
 
@@ -345,6 +390,9 @@ btnClose.addEventListener('click', function (e) {
 
     accounts.splice(index, 1);
     containerApp.style.opacity = 0;
+  }
+  else{
+    alert('siz faqat uz akauntizni uchira olasiz')
   }
 
   inputCloseUsername.value = inputClosePin.value = '';
