@@ -88,6 +88,9 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+const modal = document.querySelector('.modal')
+const clearModal = document.querySelector('.btn_hidden')
+
 
 const startLogOutTimer = function () {
   
@@ -135,48 +138,15 @@ const formatMovementDate = function (date, locale) {
 
    Math.trunc(Math.abs(date1 - date2) / (1000 * 60 * 60 * 24));
 
-    // Math.round((date1 - date2) / (60 * 60 * 24 * 1000));
   const now = new Date();
   const daysPassed = calcDaysPassed(now, date);
 
   if (daysPassed === 0) return 'Today';
   if (daysPassed === 1) return 'Yesterday';
-  // if (daysPassed <= 7) return `${daysPassed} days ago`;
   else {
     return new Intl.DateTimeFormat(locale).format(date);
   }
 };
-
-
-
-// function displayTime(date) {
-//   let now = new Date();
-
-//   function calcPassedDay(date1, date2) {
-//     let day = Math.trunc(Math.abs(date1 - date2) / (100 * 60 * 60 * 24));
-
-//     if (date1.getHours() - date2.getHours() < 0) return ++day;
-
-//     return day;
-//   }
-
-//   let passedDay = calcPassedDay(now, date);
-
-//   let year = date.getFullYear();
-//   let month = addZeroBegin(date.getMonth() + 1);
-//   let day = addZeroBegin(date.getDate());
-//   let hour = addZeroBegin(date.getHours());
-//   let minut = addZeroBegin(date.getMinutes());
-
-//   if (passedDay == 0) return `Today, ${hour}:${minut} `;
-//   if (passedDay == 1) return `Yesterday, ${hour}:${minut} `;
-
-//   return `${day}/${month}/${year}, ${hour}:${minut}`;
-// }
-
-
-
-
 
 const formatCur = function (value, locale, currency) {
   return new Intl.NumberFormat(locale, {
@@ -315,6 +285,7 @@ btnLogin.addEventListener('click', function (e) {
   }
   else{
     alert('bu akaunt mavjut emas')
+    
   }
 });
 
